@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\KeadaanController;
+use App\Http\Controllers\LoginController;
+use App\Http\Middleware\CheckIsLogin;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,8 +16,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/login', [LoginController::class, 'index']);
+Route::post('/login', [LoginController::class, 'submit']);
 
-Route::resource('/keadaan', KeadaanController::class)->names('keadaan');
+Route::middleware(CheckIsLogin::class)->group(function () {
+    Route::get('/', function () {
+        return 'berhasil login';
+    });
+    Route::resource('/keadaan', KeadaanController::class)->names('keadaan');
+});
