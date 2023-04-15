@@ -11,105 +11,25 @@
     </div>
   </div>
 </div>
-<div class="row">
-  <div class="col-md-7 grid-margin stretch-card">
-    <div class="card tale-bg">
-      <div class="card-people mt-auto">
-        <img src="{{ asset('assets') }}/images/dashboard/people.svg" alt="people">
-        <div class="weather-info">
-          <div class="d-flex">
-            <div>
-              <h2 class="mb-0 font-weight-normal"><i class="icon-sun mr-2"></i>31<sup>C</sup> - 80<sup>%</sup></h2>
-            </div>
-          </div>
+<div class="card mb-4">
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-12 col-xl-5 d-flex flex-column justify-content-center align-items-center">
+        <div class="ml-xl-4 mt-3 text-center">
+          <p class="card-title">Cuaca Hari Ini</p>
+          <h1 class="text-primary">{{ date('Y') }}</h1>
+          <h3 class="font-weight-500 mb-xl-4 text-primary">{{ date('d M') }}</h3>
         </div>
       </div>
-    </div>
-  </div>
-</div>
-<div class="stretch-card">
-  <div class="card position-relative">
-    <div class="card-body">
-      <div class="row">
-        <div class="col-md-12 col-xl-4 d-flex flex-column justify-content-center align-items-center">
-          <div class="ml-xl-4 mt-3 text-center">
-            <p class="card-title">Cuaca Hari Ini</p>
-            <h1 class="text-primary">{{ date('Y') }}</h1>
-            <h3 class="font-weight-500 mb-xl-4 text-primary">{{ date('d M') }}</h3>
-          </div>
-        </div>
-        <div class="col-md-12 col-xl-8">
-          <div class="row">
-            <div class="col-md-12">
-              <div class="table-responsive mb-3 mb-md-0 mt-3">
-                <table class="table table-borderless report-table">
-                  <tr>
-                    <td class="text-muted">Illinois</td>
-                    <td class="w-100 px-0">
-                      <div class="progress progress-md mx-4">
-                        <div class="progress-bar bg-primary" role="progressbar" style="width: 70%" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
-                      </div>
-                    </td>
-                    <td>
-                      <h5 class="font-weight-bold mb-0">713</h5>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="text-muted">Washington</td>
-                    <td class="w-100 px-0">
-                      <div class="progress progress-md mx-4">
-                        <div class="progress-bar bg-warning" role="progressbar" style="width: 30%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
-                      </div>
-                    </td>
-                    <td>
-                      <h5 class="font-weight-bold mb-0">583</h5>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="text-muted">Mississippi</td>
-                    <td class="w-100 px-0">
-                      <div class="progress progress-md mx-4">
-                        <div class="progress-bar bg-danger" role="progressbar" style="width: 95%" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100"></div>
-                      </div>
-                    </td>
-                    <td>
-                      <h5 class="font-weight-bold mb-0">924</h5>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="text-muted">California</td>
-                    <td class="w-100 px-0">
-                      <div class="progress progress-md mx-4">
-                        <div class="progress-bar bg-info" role="progressbar" style="width: 60%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
-                      </div>
-                    </td>
-                    <td>
-                      <h5 class="font-weight-bold mb-0">664</h5>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="text-muted">Maryland</td>
-                    <td class="w-100 px-0">
-                      <div class="progress progress-md mx-4">
-                        <div class="progress-bar bg-primary" role="progressbar" style="width: 40%" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
-                      </div>
-                    </td>
-                    <td>
-                      <h5 class="font-weight-bold mb-0">560</h5>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="text-muted">Alaska</td>
-                    <td class="w-100 px-0">
-                      <div class="progress progress-md mx-4">
-                        <div class="progress-bar bg-danger" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                      </div>
-                    </td>
-                    <td>
-                      <h5 class="font-weight-bold mb-0">793</h5>
-                    </td>
-                  </tr>
-                </table>
+      <div class="col-md-12 col-xl-7">
+        <div class="card tale-bg mt-4 mb-4">
+          <div class="card-people mt-auto">
+            <img src="{{ asset('assets') }}/images/dashboard/people.svg" alt="people">
+            <div class="weather-info">
+              <div class="d-flex">
+                <div>
+                  <h2 class="mb-0 font-weight-normal"><i class="icon-sun mr-2"></i>31<sup>C</sup> - 80<sup>%</sup></h2>
+                </div>
               </div>
             </div>
           </div>
@@ -118,4 +38,98 @@
     </div>
   </div>
 </div>
+<div class="stretch-card mb-4">
+  <div class="card position-relative">
+    <div class="card-body">
+      <h4 class="card-title mb-5">Grafik Per-Jam</h4>
+      <canvas max-height="300" id="keadaan-chart">
+      </canvas>
+    </div>
+  </div>
+</div>
+@endsection
+
+@section('script')
+<script>
+  if ($("#keadaan-chart").length) {
+    var areaData = {
+      labels: ["5:00", "6:00", "7:00", "8:00", "9:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", ],
+      datasets: [{
+        data: [24, 25, 26, 27, 28, 30, 32, 30, 36, 33, 29, 28, 28, 26, 26, 24, 22],
+        borderColor: [
+          '#4747A1'
+        ],
+        borderWidth: 3,
+        fill: false,
+        label: "Temperatur"
+      }, {
+        data: [72, 70, 72, 67, 50, 54, 52, 53, 55, 55, 54, 52, 60, 65, 68, 72, 68],
+        borderColor: [
+          '#F09397'
+        ],
+        borderWidth: 3,
+        fill: false,
+        label: "Kelembaban"
+      }]
+    };
+    var areaOptions = {
+      responsive: true,
+      maintainAspectRatio: true,
+      plugins: {
+        filler: {
+          propagate: false
+        }
+      },
+      scales: {
+        xAxes: [{
+          display: true,
+          ticks: {
+            display: true,
+            padding: 10,
+            fontColor: "#6C7383"
+          },
+          gridLines: {
+            display: false,
+            drawBorder: false,
+            color: 'transparent',
+            zeroLineColor: '#eeeeee'
+          }
+        }],
+        yAxes: [{
+          display: true,
+          ticks: {
+            min: 0,
+            padding: 18,
+            fontColor: "#6C7383"
+          },
+          gridLines: {
+            display: true,
+            color: "#f2f2f2",
+            drawBorder: false
+          }
+        }]
+      },
+      legend: {
+        display: true
+      },
+      tooltips: {
+        enabled: true
+      },
+      elements: {
+        line: {
+          tension: .35
+        },
+        point: {
+          radius: 3
+        }
+      }
+    }
+    var revenueChartCanvas = $("#keadaan-chart").get(0).getContext("2d");
+    var revenueChart = new Chart(revenueChartCanvas, {
+      type: 'line',
+      data: areaData,
+      options: areaOptions
+    });
+  }
+</script>
 @endsection

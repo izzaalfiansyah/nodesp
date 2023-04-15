@@ -27,8 +27,8 @@
     <!-- partial:partials/_navbar.html -->
     <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
       <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-        <a class="navbar-brand brand-logo mr-5" href="{{ asset('assets') }}/index.html"><img src="{{ asset('assets') }}/images/logo.svg" class="mr-2" alt="logo" /></a>
-        <a class="navbar-brand brand-logo-mini" href="{{ asset('assets') }}/index.html"><img src="{{ asset('assets') }}/images/logo-mini.svg" alt="logo" /></a>
+        <a class="navbar-brand brand-logo mr-5" href="{{ route('dashboard') }}"><img src="{{ asset('assets') }}/images/logo.svg" class="mr-2" alt="logo" /></a>
+        <a class="navbar-brand brand-logo-mini" href="{{ route('dashboard') }}"><img src="{{ asset('assets') }}/images/logo-mini.svg" alt="logo" /></a>
       </div>
       <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
         <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
@@ -55,7 +55,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{{ route('logout') }}">
+            <a class="nav-link" href="#logout" data-toggle="modal" data-target="#logout">
               <i class="icon-ban menu-icon"></i>
               <span class="menu-title">Logout</span>
             </a>
@@ -79,6 +79,23 @@
       <!-- main-panel ends -->
     </div>
     <!-- page-body-wrapper ends -->
+  </div>
+
+  <div class="modal fade" id="logout">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Logout</h4>
+        </div>
+        <div class="modal-body">
+          <p>Anda yakin akan mengakhiri sesi?</p>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-default" data-dismiss="modal">Batal</button>
+          <a href="{{ route('logout') }}" class="btn btn-danger">Keluar</a>
+        </div>
+      </div>
+    </div>
   </div>
   <!-- container-scroller -->
 

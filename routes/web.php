@@ -22,6 +22,10 @@ Route::post('/login', [LoginController::class, 'submit'])->name('login');
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::middleware(CheckIsLogin::class)->group(function () {
-    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/', function () {
+        return redirect()->route('dashboard');
+    });
+
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::resource('/keadaan', KeadaanController::class)->names('keadaan');
 });
