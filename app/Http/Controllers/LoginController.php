@@ -16,15 +16,22 @@ class LoginController extends Controller
     public function submit(LoginRequest $req)
     {
         if ($req->username != 'superadmin') {
-            return redirect('/login')->withErrors(['message' => 'username tidak ditemukan']);
+            return redirect()->route('login')->withErrors(['message' => 'username tidak ditemukan']);
         }
 
         if ($req->password != 'superadmin') {
-            return redirect('/login')->withErrors(['message' => 'password salah']);
+            return redirect()->route('login')->withErrors(['message' => 'password salah']);
         }
 
         Session::put('id', '1');
 
-        return redirect('/');
+        return redirect()->route('dashboard');
+    }
+
+    public function logout()
+    {
+        Session::flush();
+
+        return redirect()->route('login');
     }
 }

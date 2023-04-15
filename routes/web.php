@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\KeadaanController;
 use App\Http\Controllers\LoginController;
 use App\Http\Middleware\CheckIsLogin;
@@ -16,12 +17,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/login', [LoginController::class, 'index']);
-Route::post('/login', [LoginController::class, 'submit']);
+Route::get('/login', [LoginController::class, 'index'])->name('login');
+Route::post('/login', [LoginController::class, 'submit'])->name('login');
+Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::middleware(CheckIsLogin::class)->group(function () {
-    Route::get('/', function () {
-        return 'berhasil login';
-    });
+    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     Route::resource('/keadaan', KeadaanController::class)->names('keadaan');
 });
