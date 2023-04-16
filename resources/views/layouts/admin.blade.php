@@ -110,6 +110,7 @@
   <script src="{{ asset('assets') }}/js/template.js"></script>
   <script src="{{ asset('assets') }}/js/settings.js"></script>
   <script src="{{ asset('assets') }}/js/todolist.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.5/axios.min.js" integrity="sha512-nnNHpffPSgINrsR8ZAIgFUIMexORL5tPwsfktOTxVYSv+AUAILuFYWES8IHl+hhIhpFGlKvWFiz9ZEusrPcSBQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
   @yield('script')
 </body>

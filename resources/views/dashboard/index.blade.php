@@ -28,7 +28,14 @@
             <div class="weather-info">
               <div class="d-flex">
                 <div>
-                  <h2 class="mb-0 font-weight-normal"><i class="icon-sun mr-2"></i>31<sup>C</sup> - 80<sup>%</sup></h2>
+                  <h2 class="mb-0 font-weight-normal">
+                    <i class="icon-sun mr-2"></i>
+                    <span id="temperatur">0</span>
+                    <sup>C</sup>
+                    -
+                    <span id="kelembaban">0</span>
+                    <sup>%</sup>
+                  </h2>
                 </div>
               </div>
             </div>
@@ -42,7 +49,7 @@
   <div class="card position-relative">
     <div class="card-body">
       <h4 class="card-title mb-5">Grafik Per-Jam</h4>
-      <canvas max-height="300" id="keadaan-chart">
+      <canvas id="keadaan-chart">
       </canvas>
     </div>
   </div>
@@ -51,85 +58,115 @@
 
 @section('script')
 <script>
-  if ($("#keadaan-chart").length) {
-    var areaData = {
-      labels: ["5:00", "6:00", "7:00", "8:00", "9:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", ],
-      datasets: [{
-        data: [24, 25, 26, 27, 28, 30, 32, 30, 36, 33, 29, 28, 28, 26, 26, 24, 22],
-        borderColor: [
-          '#4747A1'
-        ],
-        borderWidth: 3,
-        fill: false,
-        label: "Temperatur"
-      }, {
-        data: [72, 70, 72, 67, 50, 54, 52, 53, 55, 55, 54, 52, 60, 65, 68, 72, 68],
-        borderColor: [
-          '#F09397'
-        ],
-        borderWidth: 3,
-        fill: false,
-        label: "Kelembaban"
-      }]
-    };
-    var areaOptions = {
-      responsive: true,
-      maintainAspectRatio: true,
-      plugins: {
-        filler: {
-          propagate: false
-        }
-      },
-      scales: {
-        xAxes: [{
-          display: true,
-          ticks: {
-            display: true,
-            padding: 10,
-            fontColor: "#6C7383"
-          },
-          gridLines: {
-            display: false,
-            drawBorder: false,
-            color: 'transparent',
-            zeroLineColor: '#eeeeee'
-          }
-        }],
-        yAxes: [{
-          display: true,
-          ticks: {
-            min: 0,
-            padding: 18,
-            fontColor: "#6C7383"
-          },
-          gridLines: {
-            display: true,
-            color: "#f2f2f2",
-            drawBorder: false
-          }
-        }]
-      },
-      legend: {
-        display: true
-      },
-      tooltips: {
-        enabled: true
-      },
-      elements: {
-        line: {
-          tension: .35
-        },
-        point: {
-          radius: 3
-        }
+  axios.get('{{ url("/api/keadaan/latest") }}').then((res) => {
+    const item = res.data.data;
+    document.querySelector('span#temperatur').innerHTML = item.temperatur;
+    document.querySelector('span#kelembaban').innerHTML = item.kelembaban;
+  })
+
+  axios.get('{{ url("/api/keadaan?tanggal=" . date("Y-m-d")) }}').then((res) => {
+    const jams = [],
+      kelembabans = [],
+      temperaturs = [],
+      items = res.data.data,
+      dates = new Date();
+
+    const jamSekarang = dates.getHours();
+
+    for (let index = 0; index < 24; index++) {
+      const jam = index < 9 ? '0' + index : index;
+      jams.push(jam);
+
+      if (index <= 7) {
+        const item = items.filter((item) => {
+          return item.jam == jam;
+        })[0];
+
+        kelembabans.push(item?.kelembaban || 0);
+        temperaturs.push(item?.temperatur || 0);
       }
     }
-    var revenueChartCanvas = $("#keadaan-chart").get(0).getContext("2d");
-    var revenueChart = new Chart(revenueChartCanvas, {
-      type: 'line',
-      data: areaData,
-      options: areaOptions
-    });
-  }
+
+    if ($("#keadaan-chart").length) {
+      var areaData = {
+        labels: jams,
+        datasets: [{
+          data: temperaturs,
+          borderColor: [
+            '#F09397'
+          ],
+          borderWidth: 3,
+          fill: false,
+          label: "Temperatur"
+        }, {
+          data: kelembabans,
+          borderColor: [
+            '#4747A1'
+          ],
+          borderWidth: 3,
+          fill: false,
+          label: "Kelembaban"
+        }]
+      };
+      var areaOptions = {
+        responsive: true,
+        maintainAspectRatio: true,
+        plugins: {
+          filler: {
+            propagate: false
+          }
+        },
+        scales: {
+          xAxes: [{
+            display: true,
+            ticks: {
+              display: true,
+              padding: 10,
+              fontColor: "#6C7383"
+            },
+            gridLines: {
+              display: false,
+              drawBorder: false,
+              color: 'transparent',
+              zeroLineColor: '#eeeeee'
+            }
+          }],
+          yAxes: [{
+            display: true,
+            ticks: {
+              min: 0,
+              padding: 18,
+              fontColor: "#6C7383"
+            },
+            gridLines: {
+              display: true,
+              color: "#f2f2f2",
+              drawBorder: false
+            }
+          }]
+        },
+        legend: {
+          display: true
+        },
+        tooltips: {
+          enabled: true
+        },
+        elements: {
+          line: {
+            tension: .35
+          },
+          point: {
+            radius: 3
+          }
+        }
+      }
+      var revenueChartCanvas = $("#keadaan-chart").get(0).getContext("2d");
+      var revenueChart = new Chart(revenueChartCanvas, {
+        type: 'line',
+        data: areaData,
+        options: areaOptions
+      });
+    }
+  })
 </script>
 @endsection

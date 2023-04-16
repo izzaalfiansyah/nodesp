@@ -61,6 +61,13 @@ class KeadaanController extends Controller
         return KeadaanResource::collection($items);
     }
 
+    public function latest()
+    {
+        $item = Keadaan::latest()->first();
+
+        return new KeadaanResource($item);
+    }
+
     public function store(KeadaanRequest $req)
     {
         $data = $req->validated();

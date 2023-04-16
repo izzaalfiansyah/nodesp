@@ -16,4 +16,5 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/keadaan/detail', [KeadaanController::class, 'showDetailByJam']);
+Route::get('/keadaan/latest', [KeadaanController::class, 'latest']);
 Route::resource('/keadaan', KeadaanController::class);
