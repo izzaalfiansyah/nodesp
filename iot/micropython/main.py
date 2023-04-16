@@ -36,7 +36,7 @@ def connect_mqtt():
     try:
       global mqtt_client
       
-      mqtt_client = umqtt.client = MQTTClient(mqtt_client_id, mqtt_server, keepalive=30)
+      mqtt_client = umqtt.MQTTClient(mqtt_client_id, mqtt_server, keepalive=30)
       mqtt_client.connect()
       
       print("Berhasil tersambung dengan MQTT Broker.")
@@ -69,7 +69,7 @@ while loop:
   if (count <= 0):
     try:
       mqtt_client.publish('/keadaan', data_json)
-      print("Mempublish data")
+      print("Berhasil mempublish data")
       count = 60
     except:
       print("Gagal mempublish data.")
