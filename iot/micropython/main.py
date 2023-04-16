@@ -13,7 +13,7 @@ mqtt_client_id = ubinascii.hexlify(machine.unique_id())
 mqtt_client = 0
 mqtt_server = '192.168.1.16'
 
-#d = dht.DHT11(machine.Pin(3))
+d = dht.DHT11(machine.Pin(3))
 loop = True
 count = 0;
 
