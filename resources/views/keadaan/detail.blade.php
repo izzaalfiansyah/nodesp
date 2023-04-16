@@ -2,19 +2,15 @@
 
 @section('content')
 @php
-$tanggal = request()->get('tanggal') ?? date('Y-m-d')
+$jam = substr(request()->route()->parameter('waktu'), 11);
 @endphp
-<div class="card mb-4">
-  <div class="card-body">
-    <div class="">
-      <input type="date" name="tanggal" value="{{ $tanggal }}" class="form-control">
-    </div>
-  </div>
+<div class="mb-4">
+  <a href="{{ route('keadaan.index') }}" class="btn btn-primary">Kembali Ke List Data Keadaan</a>
 </div>
 <div class="card">
   <div class="card-body">
-    <h4 class="card-title">Data Keadaan</h4>
-    <div class="table-responsive">
+    <h4 class="card-title">Detail Keadaan Pada Jam {{ $jam }}</h4>
+    <div class="table-responsive mt-4">
       <table class="table table-striped">
         <thead>
           <tr>
@@ -27,19 +23,13 @@ $tanggal = request()->get('tanggal') ?? date('Y-m-d')
             <th>
               Kelembaban
             </th>
-            <th>
-              Keterangan
-            </th>
-            <th>
-              Opsi
-            </th>
           </tr>
         </thead>
         <tbody>
           @foreach($items as $item)
           <tr>
             <td>
-              Jam {{ $item->jam }}
+              {{ $item->jam }}
             </td>
             <td>
               {{ (int) $item->temperatur }} `C
@@ -53,16 +43,20 @@ $tanggal = request()->get('tanggal') ?? date('Y-m-d')
                 </div>
               </div>
             </td>
-            <td>
-              -
-            </td>
-            <td>
-              <a href="{{ route('keadaan.detail', $tanggal . "-" . $item->jam) }}" class="btn btn-xs btn-info">Detail</a>
-            </td>
           </tr>
           @endforeach
         </tbody>
       </table>
+    </div>
+    <div class="row align-items-center mt-4">
+      <div class="col-6">
+        Menampilkan {{ $items->count() }} dari {{ $items->total() }} data
+      </div>
+      <div class="col-6">
+        <div class="float-right">
+          {{ $items->links() }}
+        </div>
+      </div>
     </div>
   </div>
 </div>

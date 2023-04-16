@@ -4,65 +4,51 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\KeadaanRequest;
 use App\Models\Keadaan;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class KeadaanController extends Controller
 {
-    public function index()
+    public function index(Request $req)
     {
-        $items = Keadaan::all();
+        $builder = new Keadaan();
+
+        $builder = $builder->select(
+            DB::raw("avg(kelembaban) as kelembaban"),
+            DB::raw("avg(temperatur) as temperatur"),
+            DB::raw("date_format(created_at, '%Y-%m-%d') as tanggal"),
+            DB::raw("date_format(created_at, '%H') as jam"),
+        );
+
+        $builder = $builder->groupBy(DB::raw("date_format(created_at, '%Y-%m-%d')"));
+        $builder = $builder->groupBy(DB::raw("date_format(created_at, '%H')"));
+
+        $tanggal = $req->tanggal ?? date('Y-m-d');
+        $builder = $builder->where(DB::raw("date_format(created_at, '%Y-%m-%d')"), $tanggal);
+
+        $items = $builder->get();
+
         return view('keadaan.index', compact('items'));
     }
 
-    public function create()
+    public function showDetailByJam(Request $req, $waktu)
     {
-        return view('keadaan.create');
-    }
+        $builder = new Keadaan();
 
-    public function show()
-    {
-        return view('keadaan.show');
-    }
+        $builder = $builder->select(
+            DB::raw("avg(kelembaban) as kelembaban"),
+            DB::raw("avg(temperatur) as temperatur"),
+            DB::raw("date_format(created_at, '%Y-%m-%d') as tanggal"),
+            DB::raw("date_format(created_at, '%H:%i') as jam"),
+        );
 
-    public function store(KeadaanRequest $req)
-    {
-        $data = $req->validate();
+        $builder = $builder->groupBy(DB::raw("date_format(created_at, '%Y-%m-%d')"));
+        $builder = $builder->groupBy(DB::raw("date_format(created_at, '%H:%i')"));
 
-        if ($item = Keadaan::create($data)) {
-            $success = true;
-        } else {
-            $success = false;
-        }
+        $builder = $builder->where(DB::raw("date_format(created_at, '%Y-%m-%d-%H')"), $waktu);
 
-        return redirect()->route('keadaan')->with('success', $success);
-    }
+        $items = $builder->paginate(10);
 
-    public function edit($id)
-    {
-        $item = Keadaan::find($id);
-        return view('keadaan.edit', compact('item'));
-    }
-
-    public function update(KeadaanRequest $req, $id)
-    {
-        $data = $req->validate();
-
-        if ($item = Keadaan::find($id)->update($data)) {
-            $success = true;
-        } else {
-            $success = false;
-        }
-
-        return redirect()->route('keadaan')->with('success', $success);
-    }
-
-    public function destroy($id)
-    {
-        if ($item = Keadaan::find($id)->delete()) {
-            $success = true;
-        } else {
-            $success = false;
-        }
-
-        return redirect()->route('keadaan')->with('success', $success);
+        return view('keadaan.detail', compact('items'));
     }
 }

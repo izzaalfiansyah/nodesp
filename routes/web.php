@@ -27,5 +27,6 @@ Route::middleware(CheckIsLogin::class)->group(function () {
     });
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/keadaan/detail/{waktu}', [KeadaanController::class, 'showDetailByJam'])->name('keadaan.detail');
     Route::resource('/keadaan', KeadaanController::class)->names('keadaan');
 });
