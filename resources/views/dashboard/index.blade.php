@@ -77,7 +77,7 @@
       const jam = index < 9 ? '0' + index : index;
       jams.push(jam);
 
-      if (index <= 7) {
+      if (index <= jamSekarang) {
         const item = items.filter((item) => {
           return item.jam == jam;
         })[0];
