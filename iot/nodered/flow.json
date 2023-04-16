@@ -1,0 +1,279 @@
+[
+    {
+        "id": "da51d07b593ab505",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "b8ee4c789c82b702",
+        "type": "mqtt-broker",
+        "name": "Localhost",
+        "broker": "127.0.0.1",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "e5ae4195978a6755",
+        "type": "ui_tab",
+        "name": "Keadaan",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "256278f709a25d8a",
+        "type": "ui_base",
+        "theme": {
+            "name": "theme-light",
+            "lightTheme": {
+                "default": "#0094CE",
+                "baseColor": "#0094CE",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+                "edited": true,
+                "reset": false
+            },
+            "darkTheme": {
+                "default": "#097479",
+                "baseColor": "#097479",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+                "edited": false
+            },
+            "customTheme": {
+                "name": "Untitled Theme 1",
+                "default": "#4B7930",
+                "baseColor": "#4B7930",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
+            },
+            "themeState": {
+                "base-color": {
+                    "default": "#0094CE",
+                    "value": "#0094CE",
+                    "edited": false
+                },
+                "page-titlebar-backgroundColor": {
+                    "value": "#0094CE",
+                    "edited": false
+                },
+                "page-backgroundColor": {
+                    "value": "#fafafa",
+                    "edited": false
+                },
+                "page-sidebar-backgroundColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "group-textColor": {
+                    "value": "#1bbfff",
+                    "edited": false
+                },
+                "group-borderColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "group-backgroundColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "widget-textColor": {
+                    "value": "#111111",
+                    "edited": false
+                },
+                "widget-backgroundColor": {
+                    "value": "#0094ce",
+                    "edited": false
+                },
+                "widget-borderColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "base-font": {
+                    "value": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
+                }
+            },
+            "angularTheme": {
+                "primary": "indigo",
+                "accents": "blue",
+                "warn": "red",
+                "background": "grey",
+                "palette": "light"
+            }
+        },
+        "site": {
+            "name": "Node-RED Dashboard",
+            "hideToolbar": "false",
+            "allowSwipe": "false",
+            "lockMenu": "false",
+            "allowTempTheme": "true",
+            "dateFormat": "DD/MM/YYYY",
+            "sizes": {
+                "sx": 48,
+                "sy": 48,
+                "gx": 6,
+                "gy": 6,
+                "cx": 6,
+                "cy": 6,
+                "px": 0,
+                "py": 0
+            }
+        }
+    },
+    {
+        "id": "f4ea29a94cebfa22",
+        "type": "ui_group",
+        "name": "Data",
+        "tab": "e5ae4195978a6755",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "ae5e53c02d5b2cb5",
+        "type": "axios-endpoint",
+        "name": "Laravel",
+        "baseURL": "http://127.0.0.1:8000/api",
+        "caCertPath": "",
+        "rejectUnauthorized": true,
+        "proxyEnabled": false,
+        "proxyProtocol": "https",
+        "proxyHost": "",
+        "proxyPort": ""
+    },
+    {
+        "id": "4c781cf61938f9df",
+        "type": "mqtt in",
+        "z": "da51d07b593ab505",
+        "name": "",
+        "topic": "/keadaan",
+        "qos": "2",
+        "datatype": "utf8",
+        "broker": "b8ee4c789c82b702",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 80,
+        "y": 40,
+        "wires": [["0081682e08ccd21c"]]
+    },
+    {
+        "id": "be59202575e7249e",
+        "type": "axios-request",
+        "z": "da51d07b593ab505",
+        "name": "",
+        "endpoint": "ae5e53c02d5b2cb5",
+        "method": "post",
+        "url": "/keadaan",
+        "responseType": "json",
+        "keepAlive": false,
+        "timeout": 30000,
+        "validateStatus": true,
+        "headers": [
+            {
+                "keyType": "str",
+                "keyValue": "Accept",
+                "valueType": "str",
+                "valueValue": "application/json"
+            },
+            {
+                "keyType": "str",
+                "keyValue": "Content-Type",
+                "valueType": "str",
+                "valueValue": "application/json"
+            }
+        ],
+        "params": [
+            {
+                "keyType": "str",
+                "keyValue": "temperatur",
+                "valueType": "msg",
+                "valueValue": "payload.temperatur"
+            },
+            {
+                "keyType": "str",
+                "keyValue": "kelembaban",
+                "valueType": "msg",
+                "valueValue": "payload.kelembaban"
+            }
+        ],
+        "x": 520,
+        "y": 40,
+        "wires": [[]]
+    },
+    {
+        "id": "0081682e08ccd21c",
+        "type": "json",
+        "z": "da51d07b593ab505",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 250,
+        "y": 40,
+        "wires": [["be59202575e7249e", "a7f13bf359d45df7", "6dffb4b0d77a371d"]]
+    },
+    {
+        "id": "a7f13bf359d45df7",
+        "type": "ui_gauge",
+        "z": "da51d07b593ab505",
+        "name": "",
+        "group": "f4ea29a94cebfa22",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Kelembaban",
+        "label": "%",
+        "format": "{{msg.payload.kelembaban}}",
+        "min": 0,
+        "max": "100",
+        "colors": ["#007db3", "#007db3", "#007db3"],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 510,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "6dffb4b0d77a371d",
+        "type": "ui_text",
+        "z": "da51d07b593ab505",
+        "group": "f4ea29a94cebfa22",
+        "order": 1,
+        "width": "6",
+        "height": "3",
+        "name": "",
+        "label": "Temperatur",
+        "format": "{{msg.payload.temperatur}} C",
+        "layout": "col-center",
+        "className": "",
+        "x": 510,
+        "y": 160,
+        "wires": []
+    }
+]
