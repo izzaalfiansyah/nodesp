@@ -5,7 +5,7 @@
 $jam = substr(request()->route()->parameter('waktu'), 11);
 @endphp
 <div class="mb-4">
-  <a href="{{ route('keadaan.index') }}" class="btn btn-primary">Kembali Ke List Data Keadaan</a>
+  <button onclick="window.history.back()" type="button" class="btn btn-primary">Kembali Ke List Data Keadaan</button>
 </div>
 <div class="card">
   <div class="card-body">

@@ -6,9 +6,9 @@ $tanggal = request()->get('tanggal') ?? date('Y-m-d')
 @endphp
 <div class="card mb-4">
   <div class="card-body">
-    <div class="">
-      <input type="date" name="tanggal" value="{{ $tanggal }}" class="form-control">
-    </div>
+    <form id="form" method="GET">
+      <input type="date" id="tanggal" name="tanggal" value="{{ $tanggal }}" class="form-control">
+    </form>
   </div>
 </div>
 <div class="card">
@@ -66,4 +66,12 @@ $tanggal = request()->get('tanggal') ?? date('Y-m-d')
     </div>
   </div>
 </div>
+@endsection
+
+@section('script')
+<script>
+  document.querySelector('#tanggal').addEventListener('change', function() {
+    document.querySelector('#form').submit();
+  });
+</script>
 @endsection
