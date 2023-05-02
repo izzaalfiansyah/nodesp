@@ -1,16 +1,18 @@
 @extends('layouts.admin')
 
 @section('content')
-<div class="row">
-  <div class="col-md-12 grid-margin">
-    <div class="row">
-      <div class="col-12 col-xl-8 mb-4 mb-xl-0">
-        <h3 class="font-weight-bold">Selamat Datang Superadmin</h3>
-        <h6 class="font-weight-normal mb-0">Semoga hari-hari anda berjalan dengan menyenangkan!</h6>
+@if (Session::has('id'))
+  <div class="row">
+    <div class="col-md-12 grid-margin">
+      <div class="row">
+        <div class="col-12 col-xl-8 mb-4 mb-xl-0">
+          <h3 class="font-weight-bold">Selamat Datang Superadmin</h3>
+          <h6 class="font-weight-normal mb-0">Semoga hari-hari anda berjalan dengan menyenangkan!</h6>
+        </div>
       </div>
     </div>
   </div>
-</div>
+@endif
 <div class="card mb-4">
   <div class="card-body">
     <div class="row">

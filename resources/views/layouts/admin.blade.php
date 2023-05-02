@@ -23,49 +23,59 @@
 </head>
 
 <body>
+  @php
+      $isLogin = Session::has('id');
+  @endphp
   <div class="container-scroller">
     <!-- partial:partials/_navbar.html -->
+    
     <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
       <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
         <a class="navbar-brand brand-logo mr-5" href="{{ route('dashboard') }}"><img src="{{ asset('assets') }}/images/logo.svg" class="mr-2" alt="logo" /></a>
         <a class="navbar-brand brand-logo-mini" href="{{ route('dashboard') }}"><img src="{{ asset('assets') }}/images/logo-mini.svg" alt="logo" /></a>
       </div>
       <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
-        <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
-          <span class="icon-menu"></span>
-        </button>
-        <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
-          <span class="icon-menu"></span>
-        </button>
+        @if ($isLogin)
+          <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
+            <span class="icon-menu"></span>
+          </button>
+          <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
+            <span class="icon-menu"></span>
+          </button>
+        @endif
       </div>
     </nav>
     <div class="container-fluid page-body-wrapper">
-      <nav class="sidebar sidebar-offcanvas" id="sidebar">
-        <ul class="nav">
-          <li class="nav-item">
-            <a class="nav-link" href="{{ route('dashboard') }}">
-              <i class="icon-grid menu-icon"></i>
-              <span class="menu-title">Dashboard</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{ route('keadaan.index') }}">
-              <i class="icon-paper menu-icon"></i>
-              <span class="menu-title">Data Keadaan</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#logout" data-toggle="modal" data-target="#logout">
-              <i class="icon-ban menu-icon"></i>
-              <span class="menu-title">Logout</span>
-            </a>
-          </li>
-        </ul>
-      </nav>
+      @if ($isLogin)
+        <nav class="sidebar sidebar-offcanvas" id="sidebar">
+          <ul class="nav">
+            <li class="nav-item">
+              <a class="nav-link" href="{{ route('dashboard') }}">
+                <i class="icon-grid menu-icon"></i>
+                <span class="menu-title">Dashboard</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ route('keadaan.index') }}">
+                <i class="icon-paper menu-icon"></i>
+                <span class="menu-title">Data Keadaan</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#logout" data-toggle="modal" data-target="#logout">
+                <i class="icon-ban menu-icon"></i>
+                <span class="menu-title">Logout</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      @endif
       <!-- partial -->
-      <div class="main-panel">
+      <div class="main-panel" style="{{ !$isLogin ? 'width: 100%;' : '' }}">
         <div class="content-wrapper">
-          @yield('content')
+          <div class="{{ $isLogin ? '' : 'container' }}">
+            @yield('content')
+          </div>
         </div>
         <!-- content-wrapper ends -->
         <!-- partial:partials/_footer.html -->
