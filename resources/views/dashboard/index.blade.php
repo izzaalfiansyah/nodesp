@@ -15,6 +15,14 @@
 @endif
 <div class="card mb-4">
   <div class="card-body">
+    <form id="chat">
+      <input type="text" class="form-control" placeholder="Ketikkan sesuatu..." id="message" required autocomplete="off">
+      <button type="submit" hidden></button>
+    </form>
+  </div>
+</div>
+<div class="card mb-4">
+  <div class="card-body">
     <div class="row">
       <div class="col-md-12 col-xl-5 d-flex flex-column justify-content-center align-items-center">
         <div class="ml-xl-4 mt-3 text-center">
@@ -56,10 +64,41 @@
     </div>
   </div>
 </div>
+
+<div class="modal fade" id="modal-answer">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal-title">Pertanyaan: <span id="modal-message"></span></div>
+      </div>
+      <div class="modal-body">
+        <p id="answer"></p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" type="button" data-dismiss="modal">Tutup</button>
+      </div>
+    </div>
+  </div>
+</div>
 @endsection
 
 @section('script')
 <script>
+  document.querySelector('#chat').addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const message = document.querySelector('#message').value;
+    $('#modal-message').html(message);
+
+    axios.post('{{ url("/api/chat") }}', {
+      message,
+    }).then(res => {
+      const answer = res.data.message;
+      $('#answer').html(answer);
+      $('#modal-answer').modal('show');
+    })
+  });
+
   axios.get('{{ url("/api/keadaan/latest") }}').then((res) => {
     const item = res.data.data;
     document.querySelector('span#temperatur').innerHTML = item.temperatur;
