@@ -33,7 +33,7 @@ class AIController extends Controller
 
             return new Response([
                 'success' => true,
-                'message' => $myname ? "Halo $myname!" : 'Maaf, aku tidak tahu namamu, cobalah ketikkan namamu!',
+                'message' => $myname ? "Namamu adalah $myname! Semoga harimu menyenangkan!" : 'Maaf, aku tidak tahu namamu, cobalah beritahukan namamu!',
             ]);
         } else if (preg_match('/namaku/i', $message)) {
             $myname = str_replace('namaku ', '', strtolower($message));
@@ -83,6 +83,16 @@ class AIController extends Controller
             return new Response([
                 'success' => true,
                 'message' => "Sekarang tanggal $tanggal.",
+            ]);
+        } else if (preg_match('/kamu keren/i', $message)) {
+            return new Response([
+                'success' => true,
+                'message' => "Terima kasih atas pujiannya, saya hanyalah sebuah program.",
+            ]);
+        } else if (preg_match('/terima kasih/i', $message)) {
+            return new Response([
+                'success' => true,
+                'message' => "Sama-sama. Sudah menjadi kewajibanku membantu kamu :)",
             ]);
         } else {
             return new Response([

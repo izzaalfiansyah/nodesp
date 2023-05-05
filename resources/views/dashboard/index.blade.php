@@ -16,8 +16,12 @@
 <div class="card mb-4">
   <div class="card-body">
     <form id="chat">
+      <div class="text-center">
+        <button class="btn btn-primary" type="button" id="record-button">Klik untuk Merekam</button>
+        <div class="my-2">atau</div>
+      </div>
       <input type="text" class="form-control" placeholder="Ketikkan sesuatu..." id="message" required autocomplete="off">
-      <button type="submit" hidden></button>
+      <button type="submit" id="submit-chat-form" hidden></button>
     </form>
   </div>
 </div>
@@ -98,6 +102,29 @@
       $('#modal-answer').modal('show');
     })
   });
+
+  var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
+  var recognition = new SpeechRecognition();
+  recognition.lang = 'id-ID';
+
+  document.querySelector('#record-button').addEventListener('click', (e) => {
+    e.preventDefault();
+    recognition.start();
+  });
+
+  recognition.onspeechend = (e) => {
+    recognition.stop()
+  }
+
+  recognition.onresult = (e) => {
+    const text = e.results[0][0].transcript;
+    document.querySelector('#message').value = text;
+    document.querySelector('#submit-chat-form').click();
+  }
+
+  recognition.onerror = (e) => {
+    alert('Gagal merekam suara')
+  }
 
   axios.get('{{ url("/api/keadaan/latest") }}').then((res) => {
     const item = res.data.data;
